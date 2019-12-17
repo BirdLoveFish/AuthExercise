@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using AuthExercise.Model;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,10 +14,7 @@ namespace AuthExercise.Controllers
     [Route("[controller]/[action]")]
     public class IdentityController : ControllerBase
     {
-        public IdentityController()
-        {
 
-        }
 
         public async Task<IActionResult> Authenticate()
         {
@@ -38,6 +37,7 @@ namespace AuthExercise.Controllers
             return Ok("Authenticate");
         }
 
+        [Authorize]
         public IActionResult Login()
         {
             return Ok("login success");
@@ -46,7 +46,6 @@ namespace AuthExercise.Controllers
         [Authorize]
         public IActionResult Secret()
         {
-            var identity = User.Identity;
             return Ok("secret");
         }
 
@@ -70,7 +69,7 @@ namespace AuthExercise.Controllers
         {
             return Ok("AuthAdmin2");
         }
-
+        //自定义策略授权
         [Authorize(Policy = "customAgePolicy")]
         public IActionResult AuthAge()
         {

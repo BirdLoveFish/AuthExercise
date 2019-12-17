@@ -56,6 +56,7 @@ namespace AuthExercise.Auth
         public static AuthorizationPolicyBuilder AddCustomAgeRequirement(
             this AuthorizationPolicyBuilder builder, int age)
         {
+            //age是外界传进来的
             builder.AddRequirements(new CustomAgeRequirement(age));
             return builder;
         }

@@ -4,12 +4,16 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AuthExercise.Auth;
+using AuthExercise.Database;
+using AuthExercise.Model;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -74,12 +78,14 @@ namespace AuthExercise
 
             #region 修改默认授权
             //针对[Authorize的情况]
-            services.AddAuthorization(options =>
-            {
-                var policyBuilder = new AuthorizationPolicyBuilder();
-                policyBuilder.RequireClaim("height");
-                options.DefaultPolicy = policyBuilder.Build();
-            });
+            //services.AddAuthorization(options =>
+            //{
+            //    var policyBuilder = new AuthorizationPolicyBuilder();
+            //    //policyBuilder.RequireClaim("height");
+            //    //policyBuilder.RequireClaim(ClaimTypes.Name, "zhang");
+            //    //policyBuilder.RequireAuthenticatedUser();
+            //    options.DefaultPolicy = policyBuilder.Build();
+            //});
             #endregion
 
             #region 自定义授权
@@ -102,7 +108,7 @@ namespace AuthExercise
                 {
                     //采用New一个类的方式
                     //policy.AddRequirements(new CustomAgeRequirement(15));
-                    //采用扩展方法的模式
+                    //采用扩展方法的模式，这个age只能是一个固定的数
                     policy.AddCustomAgeRequirement(15);
                 });
             });
@@ -112,9 +118,39 @@ namespace AuthExercise
             #endregion
             #endregion
 
+            #region Identity User
+            //注入DbContext
+            services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseSqlite("Data Source=app.db");
+            });
+
+            //注入UserManager,SignManager,RoleManager
+            //AddIdentity之后使用HttpContetx.SignInAsync给User赋值的方式就会失效
+            //AddIdentity会返回自己的Cookie
+
+            //services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            // {
+            //     options.Password.RequireDigit = false;
+            //     options.Password.RequireLowercase = false;
+            //     options.Password.RequiredLength = 4;
+            //     options.Password.RequiredUniqueChars = 0;
+            //     options.Password.RequireNonAlphanumeric = false;
+            //     options.Password.RequireUppercase = false;
+            // })
+            //    .AddEntityFrameworkStores<AppDbContext>()
+            //    .AddDefaultTokenProviders();
+            #endregion
+
+            services.AddSingleton<IAuthorizationPolicyProvider, MinimumAgePolicyProvider>();
+            services.AddSingleton<IAuthorizationHandler, MinAgeRequirementHandler>();
+
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(
+            IApplicationBuilder app, 
+            IWebHostEnvironment env,
+            AppDbContext dbContext)
         {
             if (env.IsDevelopment())
             {
@@ -126,6 +162,8 @@ namespace AuthExercise
             app.UseAuthentication();
             //授权
             app.UseAuthorization();
+
+            dbContext.Database.EnsureCreated();
 
             app.UseEndpoints(endpoints =>
             {
