@@ -102,8 +102,9 @@ namespace JwtExercise
             });
 
             app.UseRouting();
-            //授权认证
+            //授权
             app.UseAuthentication();
+            //认证
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
