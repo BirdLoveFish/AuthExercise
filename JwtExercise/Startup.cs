@@ -9,6 +9,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using JwtExercise.Extensions;
+using System.Text;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace JwtExercise
 {
@@ -26,7 +32,62 @@ namespace JwtExercise
         {
             services.AddControllers();
 
-            services.AddAuthentication();
+            services.AddAuthentication("bearer")
+                .AddJwtBearer("bearer", options=>
+                {
+                    #region 从query中获取token
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            if (context.Request.Query.ContainsKey("access_token"))
+                            {
+                                context.Token = context.Request.Query["access_token"];
+                            }
+                            return Task.CompletedTask;
+                        }
+                    };
+                    #endregion
+
+                    #region 验证token
+                    //秘钥
+                    var securityKey = new SymmetricSecurityKey
+                        (Encoding.UTF8.GetBytes(JwtInformation.SecurityKey));
+
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        //发行者
+                        ValidIssuer = JwtInformation.Issure,
+                        ValidateIssuer = true,
+                        //接受者
+                        ValidAudience = JwtInformation.Audience,
+                        ValidateAudience = true,
+                        //秘钥
+                        IssuerSigningKey = securityKey,
+                        ValidateIssuerSigningKey = true,
+                        //时间
+                        ValidateLifetime = true,
+                        RequireExpirationTime = true,
+                    };
+                    #endregion
+                });
+
+            services.AddAuthorization(options=>
+            {
+                //要求必须要有gender claim
+                options.AddPolicy("gender", policy =>
+                {
+                    //JwtRegisteredClaimNames.Gender无法被解析出来
+                    //policy.RequireClaim(JwtRegisteredClaimNames.Gender);
+                    //用ClaimTypes.Gender可以被解析
+                    policy.RequireClaim(ClaimTypes.Gender);
+                });
+                //要求年龄
+                options.AddPolicy("needAge", policy =>
+                {
+                    policy.RequireClaim("age");
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,7 +100,7 @@ namespace JwtExercise
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
