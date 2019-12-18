@@ -1,4 +1,8 @@
-﻿using AuthExercise.Auth;
+﻿/*
+ *  使用自定义策略提供程序
+ * 
+ */
+using AuthExercise.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;

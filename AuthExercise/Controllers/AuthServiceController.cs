@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿/*
+ *  通过注入的方式注入IAuthorizationService
+ *  可以注入到controller也可以注入到action
+ */
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

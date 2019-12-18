@@ -1,4 +1,9 @@
-﻿using AuthExercise.Model;
+﻿/*
+ *  HttpContext.SignInAsync 手动登陆
+ *  基本的Claim，Role，Policy授权认证
+ */
+
+using AuthExercise.Model;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -14,18 +19,18 @@ namespace AuthExercise.Controllers
     [Route("[controller]/[action]")]
     public class IdentityController : ControllerBase
     {
-
-
-        public async Task<IActionResult> Authenticate()
+        public async Task<IActionResult> Authenticate(
+            string name="zhang", string email= "531047332@qq.com",
+            string role="Admin", string age="18")
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name,"zhang"),
-                new Claim(ClaimTypes.Email,"531047332@qq.com"),
+                new Claim(ClaimTypes.Name, name),
+                new Claim(ClaimTypes.Email, email),
                 //添加角色
-                new Claim(ClaimTypes.Role, "Admin"),
+                new Claim(ClaimTypes.Role, role),
                 //可以为数据添加类型
-                new Claim("age", "18", ClaimValueTypes.Integer)
+                new Claim("age", age, ClaimValueTypes.Integer)
             };
             //必须指定AuthenticationType，否则无法使用SignInAsync
             var claimsIdentity = new ClaimsIdentity(claims, "myClaims");

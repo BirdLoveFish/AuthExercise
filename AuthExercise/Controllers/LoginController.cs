@@ -1,4 +1,8 @@
-﻿using AuthExercise.Model;
+﻿/*
+ *  使用asp identity来登陆
+ *  UserManager SignInManager RoleManager
+ */
+using AuthExercise.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AuthExercise.Auth;
 using AuthExercise.Database;
 using AuthExercise.Model;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -32,7 +33,11 @@ namespace AuthExercise
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(options=>
+            {
+                //定义授权过滤器
+                //options.Filters.Add()
+            });
 
             #region 认证
             #region 定义认证方案
@@ -111,10 +116,13 @@ namespace AuthExercise
                     //采用扩展方法的模式，这个age只能是一个固定的数
                     policy.AddCustomAgeRequirement(15);
                 });
+
             });
             //使用自定义Requirement，必须注册RequirementHandler
             //scope和singleton都是可以的
             services.AddScoped<IAuthorizationHandler, CustomAgeRequirementHandler>();
+            //基于资源的授权
+            services.AddSingleton<IAuthorizationHandler, DocumentAuthorizationCrudHandler>();
             #endregion
             #endregion
 
@@ -142,9 +150,15 @@ namespace AuthExercise
             //    .AddDefaultTokenProviders();
             #endregion
 
+            #region 自定义策略提供程序
             services.AddSingleton<IAuthorizationPolicyProvider, MinimumAgePolicyProvider>();
             services.AddSingleton<IAuthorizationHandler, MinAgeRequirementHandler>();
+            #endregion
 
+            #region Claims转换
+            //会在授权处理程序之前运行
+            //services.AddSingleton<IClaimsTransformation, ClaimsTransformation>();
+            #endregion
         }
 
         public void Configure(
