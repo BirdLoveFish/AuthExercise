@@ -1,15 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using JwtExercise.Extensions;
 using System.Text;
@@ -97,6 +91,15 @@ namespace JwtExercise
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            //跨域请求
+            app.UseCors(options =>
+            {
+                //允许任何的客户端
+                options.AllowAnyOrigin();
+                //允许任何的头部信息
+                options.AllowAnyHeader();
+            });
 
             app.UseRouting();
 
