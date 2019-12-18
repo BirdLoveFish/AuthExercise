@@ -102,7 +102,7 @@ namespace JwtExercise
             });
 
             app.UseRouting();
-
+            // ⁄»®»œ÷§
             app.UseAuthentication();
             app.UseAuthorization();
 
