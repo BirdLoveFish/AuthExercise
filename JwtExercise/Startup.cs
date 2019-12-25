@@ -26,8 +26,8 @@ namespace JwtExercise
         {
             services.AddControllers();
 
-            services.AddAuthentication("bearer")
-                .AddJwtBearer("bearer", options=>
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", options=>
                 {
                     #region 从query中获取token
                     options.Events = new JwtBearerEvents

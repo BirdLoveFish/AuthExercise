@@ -1,0 +1,9 @@
+﻿@model string
+
+@{
+    string url = $"/identity/authorize/{Model}";
+}
+<form action="@url" method="post">
+    用户名<input value="" name="username"/>
+    <input type="submit" value="提交"/>
+</form>
