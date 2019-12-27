@@ -24,7 +24,7 @@ namespace Server
         }
 
         public IConfiguration Configuration { get; }
-
+        
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAuthentication("OAuth")
@@ -43,7 +43,7 @@ namespace Server
                 //    }
                 //};
                 #endregion
-
+                
                 #region —È÷§token
                 //√ÿ‘ø
                 var securityKey = new SymmetricSecurityKey

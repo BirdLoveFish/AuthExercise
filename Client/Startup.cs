@@ -33,6 +33,7 @@ namespace Client
 
             services.AddAuthentication(options =>
             {
+
                 options.DefaultAuthenticateScheme = "ClientCookie";
                 options.DefaultSignInScheme = "ClientCookie";
                 options.DefaultChallengeScheme = "OurServer";
