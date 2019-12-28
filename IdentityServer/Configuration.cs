@@ -1,4 +1,5 @@
-﻿using IdentityServer4.Models;
+﻿using IdentityServer4;
+using IdentityServer4.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,17 @@ namespace IdentityServer
         {
             return new List<ApiResource>
             {
-                new ApiResource("ApiOne","Api 1")
+                new ApiResource("ApiOne","Api 1"),
+                new ApiResource("ApiTwo","Api 2")
+            };
+        }
+
+        public static IEnumerable<IdentityResource> GetIdentity()
+        {
+            return new List<IdentityResource>
+            {
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile(),
             };
         }
 
@@ -26,6 +37,18 @@ namespace IdentityServer
                     ClientSecrets = {new Secret("secret".Sha256()) },
                     AllowedGrantTypes = GrantTypes.ClientCredentials ,
                     AllowedScopes = { "ApiOne" }
+                },
+                new Client
+                {
+                    ClientId = "client_id_mvc",
+                    ClientSecrets = {new Secret("secret".Sha256()) },
+                    AllowedGrantTypes = GrantTypes.Code ,
+                    AllowedScopes = { 
+                        "ApiOne", 
+                        "ApiTwo",
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile },
+                    RedirectUris = { "http://localhost:5003/signin-oidc" }
                 }
             };
         }

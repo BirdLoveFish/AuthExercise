@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiOne", "ApiOne\ApiOne.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiTwo", "ApiTwo\ApiTwo.csproj", "{1C421FC4-0143-4E58-A9A7-4D0020A3AE5B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcClient", "MvcClient\MvcClient.csproj", "{956D4BCF-0767-47DB-BB3A-131E068D8B97}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{1C421FC4-0143-4E58-A9A7-4D0020A3AE5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C421FC4-0143-4E58-A9A7-4D0020A3AE5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C421FC4-0143-4E58-A9A7-4D0020A3AE5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{956D4BCF-0767-47DB-BB3A-131E068D8B97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{956D4BCF-0767-47DB-BB3A-131E068D8B97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{956D4BCF-0767-47DB-BB3A-131E068D8B97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{956D4BCF-0767-47DB-BB3A-131E068D8B97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +82,7 @@ Global
 		{C8FCCEF3-4B78-4692-AE1C-9C58E75FB2F7} = {35E91BAC-4D7E-4462-866A-E1735DB010FF}
 		{B87790BC-A0EC-421F-85E8-321C50B245D8} = {35E91BAC-4D7E-4462-866A-E1735DB010FF}
 		{1C421FC4-0143-4E58-A9A7-4D0020A3AE5B} = {35E91BAC-4D7E-4462-866A-E1735DB010FF}
+		{956D4BCF-0767-47DB-BB3A-131E068D8B97} = {35E91BAC-4D7E-4462-866A-E1735DB010FF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CCC3F35B-F232-44F4-92EB-34596EF590FE}
