@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.Extensions;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -91,6 +92,17 @@ namespace Server.Controllers
             //await Response.Body.WriteAsync(Encoding.UTF8.GetBytes("sss"));
 
             return Redirect(redirect_uri);
+        }
+
+        [Authorize]
+        [HttpGet("Validate")]
+        public IActionResult Validate()
+        {
+            if (HttpContext.Request.Query.TryGetValue("access_token", out var accessToken))
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
     }
 }
