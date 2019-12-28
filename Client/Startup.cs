@@ -45,8 +45,8 @@ namespace Client
                     options.CallbackPath = "/home/callback";
                     options.ClientId = "client_id";
                     options.ClientSecret = "client_secret";
-                    options.AuthorizationEndpoint = Configuration["AuthorizationEndpoint"];
-                    options.TokenEndpoint = Configuration["TokenEndpoint"];
+                    options.AuthorizationEndpoint = "http://localhost:55580/identity/authorize";
+                    options.TokenEndpoint = "http://localhost:55580/identity/token";
                     
                     options.SaveTokens = true;
 

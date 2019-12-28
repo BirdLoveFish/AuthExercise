@@ -31,19 +31,19 @@ namespace Server
             .AddJwtBearer("OAuth", options =>
             {
                 #region 从query中获取token
-                //options.Events = new JwtBearerEvents
-                //{
-                //    OnMessageReceived = context =>
-                //    {
-                //        if (context.Request.Query.ContainsKey("access_token"))
-                //        {
-                //            context.Token = context.Request.Query["access_token"];
-                //        }
-                //        return Task.CompletedTask;
-                //    }
-                //};
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        if (context.Request.Query.ContainsKey("access_token"))
+                        {
+                            context.Token = context.Request.Query["access_token"];
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
                 #endregion
-                
+
                 #region 验证token
                 //秘钥
                 var securityKey = new SymmetricSecurityKey
@@ -51,7 +51,7 @@ namespace Server
 
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ClockSkew = TimeSpan.Zero,
+                    //ClockSkew = TimeSpan.Zero,
                     //发行者
                     ValidIssuer = JwtInformation.Issure,
                     ValidateIssuer = true,
@@ -86,7 +86,7 @@ namespace Server
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapDefaultControllerRoute();
+                endpoints.MapControllers();
             });
         }
     }

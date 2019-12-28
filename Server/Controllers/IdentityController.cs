@@ -12,10 +12,10 @@ using System.Threading.Tasks;
 
 namespace Server.Controllers
 {
-    //[Route("[controller]")]
+    [Route("[controller]")]
     public class IdentityController : Controller
     {
-        //[HttpGet("Authorize")]
+        [HttpGet("Authorize")]
         public IActionResult Authorize(
             string client_id,
             string scope,
@@ -29,8 +29,7 @@ namespace Server.Controllers
             return View(model:query.ToString());
         }
 
-        //[HttpPost("Authorize")]
-        [HttpPost]
+        [HttpPost("Authorize")]
         public IActionResult Authorize(
             string username,
             string state,
@@ -42,7 +41,7 @@ namespace Server.Controllers
             return Redirect($"{redirect_uri}{query.ToString()}");
         }
 
-        //[HttpPost("Token")]
+        [HttpPost("token")]
         public async Task<IActionResult> Token(
             string grant_type,
             string code,
