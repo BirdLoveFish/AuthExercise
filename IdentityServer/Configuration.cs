@@ -48,7 +48,9 @@ namespace IdentityServer
                         "ApiTwo",
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile },
-                    RedirectUris = { "http://localhost:5003/signin-oidc" }
+                    RedirectUris = { "http://localhost:5003/signin-oidc" },
+                    //进入用户同意页面
+                    RequireConsent = false
                 }
             };
         }
