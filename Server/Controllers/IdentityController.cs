@@ -70,7 +70,7 @@ namespace Server.Controllers
                 audience: JwtInformation.Audience,
                 claims: claims,
                 notBefore: DateTime.UtcNow,
-                expires: DateTime.UtcNow.AddDays(1),
+                expires: DateTime.UtcNow.AddMilliseconds(1),
                 signingCredentials: signingCredentials
                 );
             //将token转为字符串，Base64编码

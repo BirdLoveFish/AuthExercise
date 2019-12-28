@@ -51,7 +51,7 @@ namespace Server
 
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    //ClockSkew = TimeSpan.Zero,
+                    ClockSkew = TimeSpan.Zero,
                     //·¢ÐÐÕß
                     ValidIssuer = JwtInformation.Issure,
                     ValidateIssuer = true,

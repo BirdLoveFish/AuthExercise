@@ -36,8 +36,8 @@ namespace Client.Controllers
             var serverReponse = await client.GetAsync("http://localhost:55580/secret/index");
             var serverContent = await serverReponse.Content.ReadAsStringAsync();
 
-            var apiReponse = await client.GetAsync("http://localhost:6616/secret/index");
-            var apiContent = await apiReponse.Content.ReadAsStringAsync();
+            //var apiReponse = await client.GetAsync("http://localhost:6616/secret/index");
+            //var apiContent = await apiReponse.Content.ReadAsStringAsync();
             
             return Ok();
         }
