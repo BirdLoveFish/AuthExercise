@@ -1,0 +1,11 @@
+﻿# 添加claim步骤
+
+1.用户新增一个cliam
+2.定义一定IdentityResource的资源，新建一个scope，scope中包含了这个claim
+3.IdentityServer中的Client需要添加这个Scope
+4.MvcClient中的Scope也需要添加这个scope
+
+# MvcClient配置
+在MvcClient中获得的accesstoken和idtoken是IdentityServer给他的，他并不能决定获得的2个token的值
+也就是说，在MvcClient中的配置是无法影响accessToken和idToken的值的
+但是这些配置会影响MvcClient的User的值，因为User的值是idtoken中解析来的，改变这些解析规则即可

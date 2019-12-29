@@ -34,6 +34,17 @@ namespace ApiOne
                      options.Audience = "ApiOne";
                      options.RequireHttpsMetadata = false;
                  });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("default", policy =>
+                {
+                    policy.WithOrigins("http://localhost:5004")
+                    .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,8 +55,11 @@ namespace ApiOne
                 app.UseDeveloperExceptionPage();
             }
 
-
+            app.UseCors("default");
             app.UseRouting();
+
+            
+
             app.UseAuthentication();
             app.UseAuthorization();
 

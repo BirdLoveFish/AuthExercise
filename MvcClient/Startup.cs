@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -38,7 +39,24 @@ namespace MvcClient
                     options.RequireHttpsMetadata = false;
                     options.Authority = "http://localhost:5000";
                     options.ResponseType = "code";
+
+                    //删除cliam
+                    options.ClaimActions.DeleteClaim("amr");
+                    //Claim map
+                    options.ClaimActions.MapUniqueJsonKey("RawCoding.Color","rc.Color");
+
+                    //清除Claims，不是全部的claim，只是自定义请求的部分(openid，profile，scope)
+                    //但是openid是不能删除的，删除了会报错
+                    //options.ClaimActions.Clear();
+                    //获取cliam的另外的方法
+                    options.GetClaimsFromUserInfoEndpoint = true;
+
+                    options.Scope.Add("rc.scope");
+                    options.Scope.Add("ApiOne");
+                    options.Scope.Add("offline_access");
                 });
+
+            services.AddHttpClient();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

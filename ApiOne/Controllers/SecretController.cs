@@ -13,7 +13,8 @@ namespace ApiOne.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            return Ok("Api One Secret Index");
+            var claims = User.Claims.ToList();
+            return Ok(claims.First().Value);
         }
     }
 }

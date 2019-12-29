@@ -13,7 +13,8 @@ namespace IdentityServer
         {
             return new List<ApiResource>
             {
-                new ApiResource("ApiOne","Api 1"),
+                //让api中接收到claim
+                new ApiResource("ApiOne","Api 1",new []{"rc.Big.Color" }),
                 new ApiResource("ApiTwo","Api 2")
             };
         }
@@ -24,6 +25,11 @@ namespace IdentityServer
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
+                new IdentityResource
+                {
+                    Name = "rc.scope",
+                    UserClaims = {"rc.Color","rc.Big.Color" }
+                }
             };
         }
 
@@ -47,10 +53,36 @@ namespace IdentityServer
                         "ApiOne", 
                         "ApiTwo",
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile },
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "rc.scope",
+                        
+                    },
                     RedirectUris = { "http://localhost:5003/signin-oidc" },
                     //进入用户同意页面
-                    RequireConsent = false
+                    RequireConsent = false,
+                    //refresh token
+                    AllowOfflineAccess = true,
+                    AlwaysIncludeUserClaimsInIdToken = true,
+                },
+                new Client
+                {
+                    ClientId = "client_id_js",
+                    ClientName = "JavaScript Client",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    RequirePkce = true,
+                    RequireClientSecret = false,
+
+                    RedirectUris =           { "http://localhost:5004/callback.html" },
+                    AllowedCorsOrigins =     { "http://localhost:5004" },
+                    AllowAccessTokensViaBrowser = true,
+                    AllowOfflineAccess = true,
+                    RequireConsent = false,
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "ApiOne",
+                    }
                 }
             };
         }
