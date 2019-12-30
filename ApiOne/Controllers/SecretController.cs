@@ -11,7 +11,7 @@ namespace ApiOne.Controllers
     public class SecretController:ControllerBase
     {
         //if no user, visit IdentityServer
-        [Authorize]
+        [Authorize(Roles ="admin")]
         public IActionResult Index()
         {
             var claims = User.Claims.ToList();

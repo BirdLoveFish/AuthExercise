@@ -25,10 +25,14 @@ namespace IdentityServer
                     .GetRequiredService<UserManager<ApplicationUser>>();
                 //add user
                 var user = new ApplicationUser("bob");
+                user.Email = "531047332@qq.com";
+                user.PhoneNumber = "15757125570";
                 userManager.CreateAsync(user, "secret").GetAwaiter().GetResult();
                 userManager.AddClaimAsync(user, new Claim("rc.Color", "yellow"))
                     .GetAwaiter().GetResult();
                 userManager.AddClaimAsync(user, new Claim("rc.Big.Color", "green"))
+                    .GetAwaiter().GetResult();
+                userManager.AddClaimAsync(user, new Claim("role", "admin"))
                     .GetAwaiter().GetResult();
             }
             

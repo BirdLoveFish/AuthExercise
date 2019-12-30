@@ -16,9 +16,9 @@ namespace IdentityServer
             {
                 //让api中接收到claim
                 new ApiResource("ApiOne","Api 1"
-                    //,new []{"rc.Big.Color","rc.Color" }
+                    ,new []{"rc.Big.Color","rc.Color","email", "role" }
                     ),
-                new ApiResource("ApiTwo","Api 2")
+                new ApiResource("ApiTwo","Api 2"),
             };
         }
 
@@ -32,12 +32,19 @@ namespace IdentityServer
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
+                new IdentityResources.Email(),
+                new IdentityResources.Phone(),
                 new IdentityResource
                 {
                     Name = "rc.scope",
                     UserClaims = {"rc.Color"
                     ,"rc.Big.Color"
                     }
+                },
+                new IdentityResource
+                {
+                    Name = "roles",
+                    UserClaims = {"role"}
                 }
             };
         }
@@ -69,7 +76,10 @@ namespace IdentityServer
                         "ApiTwo",
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
+                        IdentityServerConstants.StandardScopes.Phone,
                         "rc.scope",
+                        "roles"
                     },
                     //登陆回调地址
                     RedirectUris = { "http://localhost:5003/signin-oidc" },

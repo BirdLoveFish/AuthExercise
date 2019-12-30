@@ -56,6 +56,7 @@ namespace MvcClient.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        [Authorize(Roles = "admin1")]
         public async Task<IActionResult> Secret()
         {
             var accessToken = await HttpContext.GetTokenAsync("access_token");
@@ -98,6 +99,11 @@ namespace MvcClient.Controllers
             authInfo.Properties.UpdateTokenValue("refresh_token", tokenResponse.RefreshToken);
 
             await HttpContext.SignInAsync("Cookie", authInfo.Principal,authInfo.Properties);
+        }
+
+        public IActionResult Denied()
+        {
+            return Ok("Denied");
         }
     }
 }
