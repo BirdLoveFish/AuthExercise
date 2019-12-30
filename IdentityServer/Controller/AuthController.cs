@@ -25,6 +25,11 @@ namespace IdentityServer
             _roleManager = roleManager;
         }
 
+        /// <summary>
+        /// login
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Login(string returnUrl)
         {
@@ -34,9 +39,15 @@ namespace IdentityServer
             });
         }
 
+        /// <summary>
+        /// login
+        /// </summary>
+        /// <param name="loginViewModel"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
+            //login with user and password
             var signResult = await _signInManager.PasswordSignInAsync(loginViewModel.Username,
                 loginViewModel.Password, false, false);
             if(signResult.Succeeded)
@@ -50,7 +61,11 @@ namespace IdentityServer
             return View();
         }
 
-
+        /// <summary>
+        /// register
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Register(string returnUrl)
         {
@@ -77,6 +92,7 @@ namespace IdentityServer
             
             if (result.Succeeded)
             {
+                //login without password
                 await _signInManager.SignInAsync(user, false);
                 return Redirect(registerViewModel.ReturnUrl);
             }

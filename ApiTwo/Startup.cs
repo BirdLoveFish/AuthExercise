@@ -24,15 +24,19 @@ namespace ApiTwo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
+            //using jwt to verify token(access_token)
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
+                    //IdentityServer address
                     options.Authority = "http://localhost:5000";
+                    //client name
                     options.Audience = "ApiTwo";
+                    //use https ot not
                     options.RequireHttpsMetadata = false;
                 });
 
+            //HttpClient DI
             services.AddHttpClient();
         }
 

@@ -8,29 +8,25 @@
 
     <button onclick="callApi()">api</button>
 
-    <script src="./oidc-client.min.js"></script>
-    <script src="axios.min.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="js/oidc-client.min.js"></script>
     <script src="./app.js"></script>
 
     <script>
         var userManager = new Oidc.UserManager();
-
-
-
         userManager.signinCallback()
             .then(res => {
-
                 console.log(res);
-                axios.defaults.headers.common["Authorization"] = "Bearer " + res.access_token;
+                axios.defaults.headers.common["Authorization"] =
+                    "Bearer " + res.access_token;
             })
 
         function callApi() {
             axios.get("http://localhost:5001/secret/index")
-            .then(res => {
-                console.log(res);
-            }
-       )
-}
+                .then(res => {
+                    console.log(res);
+                })
+        }
 
 
     </script>

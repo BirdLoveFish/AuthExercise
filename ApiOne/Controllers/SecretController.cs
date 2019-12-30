@@ -10,6 +10,7 @@ namespace ApiOne.Controllers
     [Route("[controller]/[action]")]
     public class SecretController:ControllerBase
     {
+        //if no user, visit IdentityServer
         [Authorize]
         public IActionResult Index()
         {

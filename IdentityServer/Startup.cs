@@ -22,9 +22,11 @@ namespace IdentityServer
             //注入DbContext
             services.AddDbContext<AppDbContext>(options =>
             {
+                //use memory database
                 options.UseInMemoryDatabase("application");
             });
 
+            //use Microsoft identity
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
              {
                  options.Password.RequireDigit = false;
@@ -39,11 +41,14 @@ namespace IdentityServer
 
             //顺序必须写在这里，不然会报错
             services.AddIdentityServer()
+                //add temporary certificate
+                .AddDeveloperSigningCredential()
+                //add application user
                 .AddAspNetIdentity<ApplicationUser>()
                 .AddInMemoryApiResources(Configuration.GetApis())
                 .AddInMemoryClients(Configuration.GetClients())
                 .AddInMemoryIdentityResources(Configuration.GetIdentity())
-                .AddDeveloperSigningCredential();
+                ;
 
             //自定义IdentityServer的登录路径
             services.ConfigureApplicationCookie(options =>

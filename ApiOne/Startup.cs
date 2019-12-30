@@ -22,32 +22,35 @@ namespace ApiOne
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
+            //using jwt to verify token(access_token)
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                  {
+                     //IdentityServer address
                      options.Authority = "http://localhost:5000";
+                     //client name
                      options.Audience = "ApiOne";
+                     //use https or not
                      options.RequireHttpsMetadata = false;
                  });
 
+            //cross domain policy
+            //this item must be used to use ajax(axios)
             services.AddCors(options =>
             {
                 options.AddPolicy("default", policy =>
                 {
                     policy.WithOrigins("http://localhost:5004")
-                    .AllowAnyOrigin()
+                        .AllowAnyOrigin()
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                 });
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -57,8 +60,6 @@ namespace ApiOne
 
             app.UseCors("default");
             app.UseRouting();
-
-            
 
             app.UseAuthentication();
             app.UseAuthorization();

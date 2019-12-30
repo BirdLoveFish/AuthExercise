@@ -23,7 +23,7 @@ namespace IdentityServer
             {
                 var userManager = scope.ServiceProvider
                     .GetRequiredService<UserManager<ApplicationUser>>();
-
+                //add user
                 var user = new ApplicationUser("bob");
                 userManager.CreateAsync(user, "secret").GetAwaiter().GetResult();
                 userManager.AddClaimAsync(user, new Claim("rc.Color", "yellow"))

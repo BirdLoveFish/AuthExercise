@@ -41,9 +41,9 @@ namespace MvcClient
                     options.ResponseType = "code";
 
                     //删除cliam
-                    options.ClaimActions.DeleteClaim("amr");
+                    //options.ClaimActions.DeleteClaim("amr");
                     //Claim map
-                    options.ClaimActions.MapUniqueJsonKey("RawCoding.Color","rc.Color");
+                    //options.ClaimActions.MapUniqueJsonKey("RawCoding.Color","rc.Color");
 
                     //清除Claims，不是全部的claim，只是自定义请求的部分(openid，profile，scope)
                     //但是openid是不能删除的，删除了会报错
@@ -52,7 +52,12 @@ namespace MvcClient
                     options.GetClaimsFromUserInfoEndpoint = true;
 
                     options.Scope.Add("rc.scope");
+
+                    //添加Api请求权限
                     options.Scope.Add("ApiOne");
+                    options.Scope.Add("ApiTwo");
+
+                    //获取refresh_token
                     options.Scope.Add("offline_access");
                 });
 
