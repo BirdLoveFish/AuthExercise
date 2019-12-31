@@ -56,7 +56,7 @@ namespace MvcClient.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        [Authorize(Roles = "admin1")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Secret()
         {
             var accessToken = await HttpContext.GetTokenAsync("access_token");
@@ -104,6 +104,12 @@ namespace MvcClient.Controllers
         public IActionResult Denied()
         {
             return Ok("Denied");
+        }
+
+        //登出，会清空cookie
+        public IActionResult Logout()
+        {
+            return SignOut();
         }
     }
 }

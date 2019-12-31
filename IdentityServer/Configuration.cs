@@ -83,10 +83,12 @@ namespace IdentityServer
                     },
                     //登陆回调地址
                     RedirectUris = { "http://localhost:5003/signin-oidc" },
+                    PostLogoutRedirectUris = { "http://localhost:5003/signin-out" },
                     //进入用户同意页面
                     RequireConsent = false,
                     //refresh token
                     AllowOfflineAccess = true,
+                    //将用户的claim赋值到Client的User和id_token中
                     AlwaysIncludeUserClaimsInIdToken = true,
                 },
                 //js client.no cookie.implicit

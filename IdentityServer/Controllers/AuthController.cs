@@ -98,5 +98,6 @@ namespace IdentityServer
             }
             return View();
         }
+
     }
 }

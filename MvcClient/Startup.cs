@@ -71,18 +71,27 @@ namespace MvcClient
                     //获取cliam的另外的方法，只能在user中获得一个name属性不能对id_token造成影响
                     options.GetClaimsFromUserInfoEndpoint = true;
 
-                    //删除cliam，不起作用
-                    options.ClaimActions.DeleteClaim("nbf");
-                    //将原本被默认删除的cliam恢复
-                    //options.ClaimActions.Remove("");
+                    //删除Client中User中cliam，但是id_token中不会被删除
+                    //相当于在把本地的id_token至User的映射取消了
+                    //options.ClaimActions.DeleteClaim("amr");
+                    options.ClaimActions.DeleteClaim("sid");
+                    options.ClaimActions.DeleteClaim("sub");
+                    options.ClaimActions.DeleteClaim("auth");
 
-                    //Claim map 有时候这个操作是必要的，map("role","role")
+                    //将原本被默认删除的cliam恢复
+                    //options.ClaimActions.Remove("iat");
+
+                    /* Claim map 有时候这个操作是必要的，map("role","role")
+                     * 当Configuration中AlwaysIncludeUserClaimsInIdToken = false时
+                     * 任然想要在User Claims和id_token中获取Claims
+                     * 则需要用到下面Map
+                     */
                     //options.ClaimActions.MapUniqueJsonKey("RawCoding.Color", "rc.Color");
                     //options.ClaimActions.MapUniqueJsonKey("role", "role");
 
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        NameClaimType = JwtClaimTypes.GivenName,
+                        NameClaimType = JwtClaimTypes.Name,
                         //将claims中role赋值给identity的role
                         RoleClaimType = JwtClaimTypes.Role,
                     };
@@ -98,13 +107,11 @@ namespace MvcClient
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-            app.UseHttpsRedirection();
+            //else
+            //{
+            //    app.UseExceptionHandler("/Home/Error");
+            //    app.UseHsts();
+            //}
             app.UseStaticFiles();
 
             app.UseRouting();
